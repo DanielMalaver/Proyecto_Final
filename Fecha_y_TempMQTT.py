@@ -78,7 +78,7 @@ GPIO.setup(buzzer, GPIO.OUT)
 
 print("------ Se activa el DHT11 ---------\n")
 # -------------------- Registro de Temperatura ----------------------------
-for i in range(201):
+for i in range(2001):
     if i%100 == 0 and i !=0:
         lectura_temperatura = dht11(1,datetime.now())
         print(lectura_temperatura)
