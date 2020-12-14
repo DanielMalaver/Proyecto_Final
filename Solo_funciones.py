@@ -9,567 +9,715 @@ from time import sleep
 from datetime import time
 import calendar
 import paho.mqtt.client as mqtt
-#from SensorPir import*
-#import RPi.GPIO as GPIO
+import paho.mqtt.client as paho
 
 ####################################################
-# -------- Funciones de COntrol de Comandos --------
+# -------- Funciones de Control de Comandos --------
 ####################################################
 
+
+# --------- Funcion para cambiar por completo las clases de un bloque en particular --------
 def COMANDOCambiarBloque(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    if recibido[22] == "A":
-        LUNES[recibido[22]] = int(recibido[30])
-        MARTES[recibido[22]] = int(recibido[39])
-        MIERCOLES[recibido[22]] = int(recibido[51])
-        JUEVES[recibido[22]] = int(recibido[60])
-        VIERNES[recibido[22]] = int(recibido[70])
-        if recibido[0] == "A":
-            Aula_A_Lunes['A'] = LUNES[recibido[22]]
-            Aula_A_Martes['A'] = MARTES[recibido[22]]
-            Aula_A_Miercoles['A'] = MIERCOLES[recibido[22]]
-            Aula_A_Jueves['A'] = JUEVES[recibido[22]]
-            Aula_A_Viernes['A'] = VIERNES[recibido[22]]
-        elif recibido[0] == "B":
-            Aula_B_Lunes['A'] = LUNES[recibido[22]]
-            Aula_B_Martes['A'] = MARTES[recibido[22]]
-            Aula_B_Miercoles['A'] = MIERCOLES[recibido[22]]
-            Aula_B_Jueves['A'] = JUEVES[recibido[22]]
-            Aula_B_Viernes['A'] = VIERNES[recibido[22]]
-        elif recibido[0] == "C":
-            Aula_C_Lunes['A'] = LUNES[recibido[22]]
-            Aula_C_Martes['A'] = MARTES[recibido[22]]
-            Aula_C_Miercoles['A'] = MIERCOLES[recibido[22]]
-            Aula_C_Jueves['A'] = JUEVES[recibido[22]]
-            Aula_C_Viernes['A'] = VIERNES[recibido[22]]
+    try:
+        if recibido[22] == "A":
+            LUNES[recibido[22]] = int(recibido[30])
+            MARTES[recibido[22]] = int(recibido[39])
+            MIERCOLES[recibido[22]] = int(recibido[51])
+            JUEVES[recibido[22]] = int(recibido[60])
+            VIERNES[recibido[22]] = int(recibido[70])
+            if recibido[0] == "A":
+                Aula_A_Lunes['A'] = LUNES[recibido[22]]
+                Aula_A_Martes['A'] = MARTES[recibido[22]]
+                Aula_A_Miercoles['A'] = MIERCOLES[recibido[22]]
+                Aula_A_Jueves['A'] = JUEVES[recibido[22]]
+                Aula_A_Viernes['A'] = VIERNES[recibido[22]]
+            elif recibido[0] == "B":
+                Aula_B_Lunes['A'] = LUNES[recibido[22]]
+                Aula_B_Martes['A'] = MARTES[recibido[22]]
+                Aula_B_Miercoles['A'] = MIERCOLES[recibido[22]]
+                Aula_B_Jueves['A'] = JUEVES[recibido[22]]
+                Aula_B_Viernes['A'] = VIERNES[recibido[22]]
+            elif recibido[0] == "C":
+                Aula_C_Lunes['A'] = LUNES[recibido[22]]
+                Aula_C_Martes['A'] = MARTES[recibido[22]]
+                Aula_C_Miercoles['A'] = MIERCOLES[recibido[22]]
+                Aula_C_Jueves['A'] = JUEVES[recibido[22]]
+                Aula_C_Viernes['A'] = VIERNES[recibido[22]]
 
-    if recibido[22] == "B":
-        LUNES[recibido[22]] = int(recibido[30])
-        MARTES[recibido[22]] = int(recibido[39])
-        MIERCOLES[recibido[22]] = int(recibido[51])
-        JUEVES[recibido[22]] = int(recibido[60])
-        VIERNES[recibido[22]] = int(recibido[70])
-        if recibido[0] == "A":
-            Aula_A_Lunes['B'] = LUNES[recibido[22]]
-            Aula_A_Martes['B'] = MARTES[recibido[22]]
-            Aula_A_Miercoles['B'] = MIERCOLES[recibido[22]]
-            Aula_A_Jueves['B'] = JUEVES[recibido[22]]
-            Aula_A_Viernes['B'] = VIERNES[recibido[22]]
-        elif recibido[0] == "B":
-            Aula_B_Lunes['B'] = LUNES[recibido[22]]
-            Aula_B_Martes['B'] = MARTES[recibido[22]]
-            Aula_B_Miercoles['B'] = MIERCOLES[recibido[22]]
-            Aula_B_Jueves['B'] = JUEVES[recibido[22]]
-            Aula_B_Viernes['B'] = VIERNES[recibido[22]]
-        elif recibido[0] == "C":
-            Aula_C_Lunes['B'] = LUNES[recibido[22]]
-            Aula_C_Martes['B'] = MARTES[recibido[22]]
-            Aula_C_Miercoles['B'] = MIERCOLES[recibido[22]]
-            Aula_C_Jueves['B'] = JUEVES[recibido[22]]
-            Aula_C_Viernes['B'] = VIERNES[recibido[22]]
+        if recibido[22] == "B":
+            LUNES[recibido[22]] = int(recibido[30])
+            MARTES[recibido[22]] = int(recibido[39])
+            MIERCOLES[recibido[22]] = int(recibido[51])
+            JUEVES[recibido[22]] = int(recibido[60])
+            VIERNES[recibido[22]] = int(recibido[70])
+            if recibido[0] == "A":
+                Aula_A_Lunes['B'] = LUNES[recibido[22]]
+                Aula_A_Martes['B'] = MARTES[recibido[22]]
+                Aula_A_Miercoles['B'] = MIERCOLES[recibido[22]]
+                Aula_A_Jueves['B'] = JUEVES[recibido[22]]
+                Aula_A_Viernes['B'] = VIERNES[recibido[22]]
+            elif recibido[0] == "B":
+                Aula_B_Lunes['B'] = LUNES[recibido[22]]
+                Aula_B_Martes['B'] = MARTES[recibido[22]]
+                Aula_B_Miercoles['B'] = MIERCOLES[recibido[22]]
+                Aula_B_Jueves['B'] = JUEVES[recibido[22]]
+                Aula_B_Viernes['B'] = VIERNES[recibido[22]]
+            elif recibido[0] == "C":
+                Aula_C_Lunes['B'] = LUNES[recibido[22]]
+                Aula_C_Martes['B'] = MARTES[recibido[22]]
+                Aula_C_Miercoles['B'] = MIERCOLES[recibido[22]]
+                Aula_C_Jueves['B'] = JUEVES[recibido[22]]
+                Aula_C_Viernes['B'] = VIERNES[recibido[22]]
 
-    if recibido[22] == "C":
-        LUNES[recibido[22]] = int(recibido[30])
-        MARTES[recibido[22]] = int(recibido[39])
-        MIERCOLES[recibido[22]] = int(recibido[51])
-        JUEVES[recibido[22]] = int(recibido[60])
-        VIERNES[recibido[22]] = int(recibido[70])
-        if recibido[0] == "A":
-            Aula_A_Lunes['C'] = LUNES[recibido[22]]
-            Aula_A_Martes['C'] = MARTES[recibido[22]]
-            Aula_A_Miercoles['C'] = MIERCOLES[recibido[22]]
-            Aula_A_Jueves['C'] = JUEVES[recibido[22]]
-            Aula_A_Viernes['C'] = VIERNES[recibido[22]]
-        elif recibido[0] == "B":
-            Aula_B_Lunes['C'] = LUNES[recibido[22]]
-            Aula_B_Martes['C'] = MARTES[recibido[22]]
-            Aula_B_Miercoles['C'] = MIERCOLES[recibido[22]]
-            Aula_B_Jueves['C'] = JUEVES[recibido[22]]
-            Aula_B_Viernes['C'] = VIERNES[recibido[22]]
-        elif recibido[0] == "C":
-            Aula_C_Lunes['C'] = LUNES[recibido[22]]
-            Aula_C_Martes['C'] = MARTES[recibido[22]]
-            Aula_C_Miercoles['C'] = MIERCOLES[recibido[22]]
-            Aula_C_Jueves['C'] = JUEVES[recibido[22]]
-            Aula_C_Viernes['C'] = VIERNES[recibido[22]]
+        if recibido[22] == "C":
+            LUNES[recibido[22]] = int(recibido[30])
+            MARTES[recibido[22]] = int(recibido[39])
+            MIERCOLES[recibido[22]] = int(recibido[51])
+            JUEVES[recibido[22]] = int(recibido[60])
+            VIERNES[recibido[22]] = int(recibido[70])
+            if recibido[0] == "A":
+                Aula_A_Lunes['C'] = LUNES[recibido[22]]
+                Aula_A_Martes['C'] = MARTES[recibido[22]]
+                Aula_A_Miercoles['C'] = MIERCOLES[recibido[22]]
+                Aula_A_Jueves['C'] = JUEVES[recibido[22]]
+                Aula_A_Viernes['C'] = VIERNES[recibido[22]]
+            elif recibido[0] == "B":
+                Aula_B_Lunes['C'] = LUNES[recibido[22]]
+                Aula_B_Martes['C'] = MARTES[recibido[22]]
+                Aula_B_Miercoles['C'] = MIERCOLES[recibido[22]]
+                Aula_B_Jueves['C'] = JUEVES[recibido[22]]
+                Aula_B_Viernes['C'] = VIERNES[recibido[22]]
+            elif recibido[0] == "C":
+                Aula_C_Lunes['C'] = LUNES[recibido[22]]
+                Aula_C_Martes['C'] = MARTES[recibido[22]]
+                Aula_C_Miercoles['C'] = MIERCOLES[recibido[22]]
+                Aula_C_Jueves['C'] = JUEVES[recibido[22]]
+                Aula_C_Viernes['C'] = VIERNES[recibido[22]]
 
-    if recibido[22] == "D":
-        LUNES[recibido[22]] = int(recibido[30])
-        MARTES[recibido[22]] = int(recibido[39])
-        MIERCOLES[recibido[22]] = int(recibido[51])
-        JUEVES[recibido[22]] = int(recibido[60])
-        VIERNES[recibido[22]] = int(recibido[70])
-        if recibido[0] == "A":
-            Aula_A_Lunes['D'] = LUNES[recibido[22]]
-            Aula_A_Martes['D'] = MARTES[recibido[22]]
-            Aula_A_Miercoles['D'] = MIERCOLES[recibido[22]]
-            Aula_A_Jueves['D'] = JUEVES[recibido[22]]
-            Aula_A_Viernes['D'] = VIERNES[recibido[22]]
-        elif recibido[0] == "B":
-            Aula_B_Lunes['D'] = LUNES[recibido[22]]
-            Aula_B_Martes['D'] = MARTES[recibido[22]]
-            Aula_B_Miercoles['D'] = MIERCOLES[recibido[22]]
-            Aula_B_Jueves['D'] = JUEVES[recibido[22]]
-            Aula_B_Viernes['D'] = VIERNES[recibido[22]]
-        elif recibido[0] == "C":
-            Aula_C_Lunes['D'] = LUNES[recibido[22]]
-            Aula_C_Martes['D'] = MARTES[recibido[22]]
-            Aula_C_Miercoles['D'] = MIERCOLES[recibido[22]]
-            Aula_C_Jueves['D'] = JUEVES[recibido[22]]
-            Aula_C_Viernes['D'] = VIERNES[recibido[22]]
+        if recibido[22] == "D":
+            LUNES[recibido[22]] = int(recibido[30])
+            MARTES[recibido[22]] = int(recibido[39])
+            MIERCOLES[recibido[22]] = int(recibido[51])
+            JUEVES[recibido[22]] = int(recibido[60])
+            VIERNES[recibido[22]] = int(recibido[70])
+            if recibido[0] == "A":
+                Aula_A_Lunes['D'] = LUNES[recibido[22]]
+                Aula_A_Martes['D'] = MARTES[recibido[22]]
+                Aula_A_Miercoles['D'] = MIERCOLES[recibido[22]]
+                Aula_A_Jueves['D'] = JUEVES[recibido[22]]
+                Aula_A_Viernes['D'] = VIERNES[recibido[22]]
+            elif recibido[0] == "B":
+                Aula_B_Lunes['D'] = LUNES[recibido[22]]
+                Aula_B_Martes['D'] = MARTES[recibido[22]]
+                Aula_B_Miercoles['D'] = MIERCOLES[recibido[22]]
+                Aula_B_Jueves['D'] = JUEVES[recibido[22]]
+                Aula_B_Viernes['D'] = VIERNES[recibido[22]]
+            elif recibido[0] == "C":
+                Aula_C_Lunes['D'] = LUNES[recibido[22]]
+                Aula_C_Martes['D'] = MARTES[recibido[22]]
+                Aula_C_Miercoles['D'] = MIERCOLES[recibido[22]]
+                Aula_C_Jueves['D'] = JUEVES[recibido[22]]
+                Aula_C_Viernes['D'] = VIERNES[recibido[22]]
 
-    if recibido[22] == "E":
-        LUNES[recibido[22]] = int(recibido[30])
-        MARTES[recibido[22]] = int(recibido[39])
-        MIERCOLES[recibido[22]] = int(recibido[51])
-        JUEVES[recibido[22]] = int(recibido[60])
-        VIERNES[recibido[22]] = int(recibido[70])
-        if recibido[0] == "A":
-            Aula_A_Lunes['E'] = LUNES[recibido[22]]
-            Aula_A_Martes['E'] = MARTES[recibido[22]]
-            Aula_A_Miercoles['E'] = MIERCOLES[recibido[22]]
-            Aula_A_Jueves['E'] = JUEVES[recibido[22]]
-            Aula_A_Viernes['E'] = VIERNES[recibido[22]]
-        elif recibido[0] == "B":
-            Aula_B_Lunes['E'] = LUNES[recibido[22]]
-            Aula_B_Martes['E'] = MARTES[recibido[22]]
-            Aula_B_Miercoles['E'] = MIERCOLES[recibido[22]]
-            Aula_B_Jueves['E'] = JUEVES[recibido[22]]
-            Aula_B_Viernes['E'] = VIERNES[recibido[22]]
-        elif recibido[0] == "C":
-            Aula_C_Lunes['E'] = LUNES[recibido[22]]
-            Aula_C_Martes['E'] = MARTES[recibido[22]]
-            Aula_C_Miercoles['E'] = MIERCOLES[recibido[22]]
-            Aula_C_Jueves['E'] = JUEVES[recibido[22]]
-            Aula_C_Viernes['E'] = VIERNES[recibido[22]]
+        if recibido[22] == "E":
+            LUNES[recibido[22]] = int(recibido[30])
+            MARTES[recibido[22]] = int(recibido[39])
+            MIERCOLES[recibido[22]] = int(recibido[51])
+            JUEVES[recibido[22]] = int(recibido[60])
+            VIERNES[recibido[22]] = int(recibido[70])
+            if recibido[0] == "A":
+                Aula_A_Lunes['E'] = LUNES[recibido[22]]
+                Aula_A_Martes['E'] = MARTES[recibido[22]]
+                Aula_A_Miercoles['E'] = MIERCOLES[recibido[22]]
+                Aula_A_Jueves['E'] = JUEVES[recibido[22]]
+                Aula_A_Viernes['E'] = VIERNES[recibido[22]]
+            elif recibido[0] == "B":
+                Aula_B_Lunes['E'] = LUNES[recibido[22]]
+                Aula_B_Martes['E'] = MARTES[recibido[22]]
+                Aula_B_Miercoles['E'] = MIERCOLES[recibido[22]]
+                Aula_B_Jueves['E'] = JUEVES[recibido[22]]
+                Aula_B_Viernes['E'] = VIERNES[recibido[22]]
+            elif recibido[0] == "C":
+                Aula_C_Lunes['E'] = LUNES[recibido[22]]
+                Aula_C_Martes['E'] = MARTES[recibido[22]]
+                Aula_C_Miercoles['E'] = MIERCOLES[recibido[22]]
+                Aula_C_Jueves['E'] = JUEVES[recibido[22]]
+                Aula_C_Viernes['E'] = VIERNES[recibido[22]]
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
 
+# --------- Funcion para configurar un dia entero --------
 def COMANDOConfigurardia(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    if recibido[16:21] == "Lunes":
-        LUNES['A'] = int(recibido[30])
-        LUNES['B'] = int(recibido[40])
-        LUNES['C'] = int(recibido[50])
-        LUNES['D'] = int(recibido[60])
-        LUNES['E'] = int(recibido[70])
-        if recibido[0] == "A":
-           Aula_A_Lunes = LUNES
-        elif recibido[0] == "B":
-           Aula_B_Lunes = LUNES
-        elif recibido[0] == "C":
-           Aula_C_Lunes = LUNES
+    try:
+        if recibido[16:21] == "Lunes":
+            LUNES['A'] = int(recibido[30])
+            LUNES['B'] = int(recibido[40])
+            LUNES['C'] = int(recibido[50])
+            LUNES['D'] = int(recibido[60])
+            LUNES['E'] = int(recibido[70])
+            if recibido[0] == "A":
+                Aula_A_Lunes = LUNES
+            elif recibido[0] == "B":
+                Aula_B_Lunes = LUNES
+            elif recibido[0] == "C":
+                Aula_C_Lunes = LUNES
 
-    elif recibido[16:22] == "Martes":
-        MARTES['A'] = int(recibido[31])
-        MARTES['B'] = int(recibido[41])
-        MARTES['C'] = int(recibido[51])
-        MARTES['D'] = int(recibido[61])
-        MARTES['E'] = int(recibido[71])
-        if recibido[0] == "A":
-           Aula_A_Martes = MARTES
-        elif recibido[0] == "B":
-           Aula_B_Martes = MARTES
-        elif recibido[0] == "C":
-           Aula_C_Martes = MARTES
+        elif recibido[16:22] == "Martes":
+            MARTES['A'] = int(recibido[31])
+            MARTES['B'] = int(recibido[41])
+            MARTES['C'] = int(recibido[51])
+            MARTES['D'] = int(recibido[61])
+            MARTES['E'] = int(recibido[71])
+            if recibido[0] == "A":
+                Aula_A_Martes = MARTES
+            elif recibido[0] == "B":
+                Aula_B_Martes = MARTES
+            elif recibido[0] == "C":
+                Aula_C_Martes = MARTES
 
-    elif recibido[16:24] == "Miercoles":
-        MIERCOLES['A'] = int(recibido[33])
-        MIERCOLES['B'] = int(recibido[43])
-        MIERCOLES['C'] = int(recibido[53])
-        MIERCOLES['D'] = int(recibido[63])
-        MIERCOLES['E'] = int(recibido[73])
-        if recibido[0] == "A":
-           Aula_A_Miercoles = MIERCOLES
-        elif recibido[0] == "B":
-           Aula_B_Miercoles = MIERCOLES
-        elif recibido[0] == "C":
-           Aula_C_Miercoles = MIERCOLES
+        elif recibido[16:24] == "Miercoles":
+            MIERCOLES['A'] = int(recibido[33])
+            MIERCOLES['B'] = int(recibido[43])
+            MIERCOLES['C'] = int(recibido[53])
+            MIERCOLES['D'] = int(recibido[63])
+            MIERCOLES['E'] = int(recibido[73])
+            if recibido[0] == "A":
+                Aula_A_Miercoles = MIERCOLES
+            elif recibido[0] == "B":
+                Aula_B_Miercoles = MIERCOLES
+            elif recibido[0] == "C":
+                Aula_C_Miercoles = MIERCOLES
     
-    elif recibido[16:22] == "Jueves":
-        JUEVES['A'] = int(recibido[31])
-        JUEVES['B'] = int(recibido[41])
-        JUEVES['C'] = int(recibido[51])
-        JUEVES['D'] = int(recibido[61])
-        JUEVES['E'] = int(recibido[71])
-        if recibido[0] == "A":
-           Aula_A_Jueves = JUEVES
-        elif recibido[0] == "B":
-           Aula_B_Jueves = JUEVES
-        elif recibido[0] == "C":
-           Aula_C_Jueves = JUEVES
+        elif recibido[16:22] == "Jueves":
+            JUEVES['A'] = int(recibido[31])
+            JUEVES['B'] = int(recibido[41])
+            JUEVES['C'] = int(recibido[51])
+            JUEVES['D'] = int(recibido[61])
+            JUEVES['E'] = int(recibido[71])
+            if recibido[0] == "A":
+                Aula_A_Jueves = JUEVES
+            elif recibido[0] == "B":
+                Aula_B_Jueves = JUEVES
+            elif recibido[0] == "C":
+                Aula_C_Jueves = JUEVES
     
-    elif recibido[16:23] == "Viernes":
-        VIERNES['A'] = int(recibido[32])
-        VIERNES['B'] = int(recibido[42])
-        VIERNES['C'] = int(recibido[52])
-        VIERNES['D'] = int(recibido[62])
-        VIERNES['E'] = int(recibido[72])
-        if recibido[0] == "A":
-           Aula_A_Viernes = VIERNES
-        elif recibido[0] == "B":
-           Aula_B_Viernes = VIERNES
-        elif recibido[0] == "C":
-           Aula_C_Viernes = VIERNES
+        elif recibido[16:23] == "Viernes":
+            VIERNES['A'] = int(recibido[32])
+            VIERNES['B'] = int(recibido[42])
+            VIERNES['C'] = int(recibido[52])
+            VIERNES['D'] = int(recibido[62])
+            VIERNES['E'] = int(recibido[72])
+            if recibido[0] == "A":
+                Aula_A_Viernes = VIERNES
+            elif recibido[0] == "B":
+                Aula_B_Viernes = VIERNES
+            elif recibido[0] == "C":
+                Aula_C_Viernes = VIERNES
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
 
+# --------- Funcion para asignar un asignatura a un bloque de un dia en especifico--------
 def COMANDOAsignarAsignatura(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    if recibido[20:25] == "Lunes":
-        LUNES[recibido[32]] = int(recibido[34])
-        if recibido[0] == "A":
-           Aula_A_Lunes = LUNES
-        elif recibido[0] == "B":
-           Aula_B_Lunes = LUNES
-        elif recibido[0] == "C":
-           Aula_C_Lunes = LUNES
+    try:
+        if recibido[20:25] == "Lunes":
+            LUNES[recibido[32]] = int(recibido[34])
+            if recibido[0] == "A":
+                Aula_A_Lunes = LUNES
+            elif recibido[0] == "B":
+                Aula_B_Lunes = LUNES
+            elif recibido[0] == "C":
+                Aula_C_Lunes = LUNES
 
-    elif recibido[20:26] == "Martes":
-        MARTES[recibido[33]] = int(recibido[35])
-        if recibido[0] == "A":
-           Aula_A_Martes = MARTES
-        elif recibido[0] == "B":
-           Aula_B_Martes = MARTES
-        elif recibido[0] == "C":
-           Aula_C_Martes = MARTES
+        elif recibido[20:26] == "Martes":
+            MARTES[recibido[33]] = int(recibido[35])
+            if recibido[0] == "A":
+                Aula_A_Martes = MARTES
+            elif recibido[0] == "B":
+                Aula_B_Martes = MARTES
+            elif recibido[0] == "C":
+                Aula_C_Martes = MARTES
 
-    elif recibido[20:29] == "Miercoles":
-        MIERCOLES[recibido[36]] = int(recibido[38])
-        if recibido[0] == "A":
-           Aula_A_Miercoles = MIERCOLES
-        elif recibido[0] == "B":
-           Aula_B_Miercoles = MIERCOLES
-        elif recibido[0] == "C":
-           Aula_C_Miercoles = MIERCOLES
+        elif recibido[20:29] == "Miercoles":
+            MIERCOLES[recibido[36]] = int(recibido[38])
+            if recibido[0] == "A":
+                Aula_A_Miercoles = MIERCOLES
+            elif recibido[0] == "B":
+                Aula_B_Miercoles = MIERCOLES
+            elif recibido[0] == "C":
+                Aula_C_Miercoles = MIERCOLES
 
-    elif recibido[20:26] == "Jueves":
-        JUEVES[recibido[33]] = int(recibido[35])
-        if recibido[0] == "A":
-           Aula_A_Jueves = JUEVES
-        elif recibido[0] == "B":
-           Aula_B_Jueves = JUEVES
-        elif recibido[0] == "C":
-           Aula_C_Jueves = JUEVES
+        elif recibido[20:26] == "Jueves":
+            JUEVES[recibido[33]] = int(recibido[35])
+            if recibido[0] == "A":
+                Aula_A_Jueves = JUEVES
+            elif recibido[0] == "B":
+                Aula_B_Jueves = JUEVES
+            elif recibido[0] == "C":
+                Aula_C_Jueves = JUEVES
 
-    elif recibido[20:27] == "Viernes":
-        VIERNES[recibido[34]] = int(recibido[36])
-        if recibido[0] == "A":
-           Aula_A_Viernes = VIERNES
-        elif recibido[0] == "B":
-           Aula_B_Viernes = VIERNES
-        elif recibido[0] == "C":
-           Aula_C_Viernes = VIERNES
+        elif recibido[20:27] == "Viernes":
+            VIERNES[recibido[34]] = int(recibido[36])
+            if recibido[0] == "A":
+                Aula_A_Viernes = VIERNES
+            elif recibido[0] == "B":
+                Aula_B_Viernes = VIERNES
+            elif recibido[0] == "C":
+                Aula_C_Viernes = VIERNES
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
 
+# --------- Funcion para mostrar el horario semanal de uin aula en especifico --------
 def COMANDOHorarioSemana(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    print("Horario Semanal -> Aula:",recibido[0])
-    print("Lunes:")
-    print("TURNO A: ASIGNATURA: ",LUNES['A'],"- TURNO B: ASIGNATURA: ",LUNES['B']," - TURNO C: ASIGNATURA: ",LUNES['C']," - TURNO D: ASIGNATURA: ",LUNES['D']," - TURNO E - ASIGNATURA: ",LUNES['E'])
-    print("Martes:")
-    print("TURNO A: ASIGNATURA: ",MARTES['A'],"- TURNO B: ASIGNATURA: ",MARTES['B']," - TURNO C: ASIGNATURA: ",MARTES['C']," - TURNO D: ASIGNATURA: ",MARTES['D']," - TURNO E - ASIGNATURA: ",MARTES['E'])
-    print("Miercoles:")
-    print("TURNO A: ASIGNATURA: ",MIERCOLES['A'],"- TURNO B: ASIGNATURA: ",MIERCOLES['B']," - TURNO C: ASIGNATURA: ",MIERCOLES['C']," - TURNO D: ASIGNATURA: ",MIERCOLES['D']," - TURNO E - ASIGNATURA: ",MIERCOLES['E'])
-    print("Jueves:")
-    print("TURNO A: ASIGNATURA: ",JUEVES['A'],"- TURNO B: ASIGNATURA: ",JUEVES['B']," - TURNO C: ASIGNATURA: ",JUEVES['C']," - TURNO D: ASIGNATURA: ",JUEVES['D']," - TURNO E - ASIGNATURA: ",JUEVES['E'])
-    print("Viernes:")
-    print("TURNO A: ASIGNATURA: ",VIERNES['A'],"- TURNO B: ASIGNATURA: ",VIERNES['B']," - TURNO C: ASIGNATURA: ",VIERNES['C']," - TURNO D: ASIGNATURA: ",VIERNES['D']," - TURNO E - ASIGNATURA: ",VIERNES['E'])
+    try:
+        Pantalla1 = " Horario Semanal -> Aula: "+str(recibido[0])+"\n"
+        Pantalla2 = " Lunes:\n"
+        Pantalla3 = " TURNO A: ASIGNATURA: "+str(LUNES['A'])+" - TURNO B: ASIGNATURA: "+str(LUNES['B'])+" - TURNO C: ASIGNATURA: "+str(LUNES['C'])+" - TURNO D: ASIGNATURA: "+str(LUNES['D'])+" - TURNO E - ASIGNATURA: "+str(LUNES['E'])+"\n"
+        Pantalla4 = " Martes:\n"
+        Pantalla5 = " TURNO A: ASIGNATURA: "+str(MARTES['A'])+" - TURNO B: ASIGNATURA: "+str(MARTES['B'])+" - TURNO C: ASIGNATURA: "+str(MARTES['C'])+" - TURNO D: ASIGNATURA: "+str(MARTES['D'])+" - TURNO E - ASIGNATURA: "+str(MARTES['E'])+"\n"
+        Pantalla6 = " Miercoles:\n"
+        Pantalla7 = " TURNO A: ASIGNATURA: "+str(MIERCOLES['A'])+" - TURNO B: ASIGNATURA: "+str(MIERCOLES['B'])+" - TURNO C: ASIGNATURA: "+str(MIERCOLES['C'])+" - TURNO D: ASIGNATURA: "+str(MIERCOLES['D'])+" - TURNO E - ASIGNATURA: "+str(MIERCOLES['E'])+"\n"
+        Pantalla8 = " Jueves:\n"
+        Pantalla9 = " TURNO A: ASIGNATURA: "+str(JUEVES['A'])+" - TURNO B: ASIGNATURA: "+str(JUEVES['B'])+" - TURNO C: ASIGNATURA: "+str(JUEVES['C'])+" - TURNO D: ASIGNATURA: "+str(JUEVES['D'])+" - TURNO E - ASIGNATURA: "+str(JUEVES['E'])+"\n"
+        Pantalla10 = " Viernes:\n"
+        Pantalla11 = " TURNO A: ASIGNATURA: "+str(VIERNES['A'])+" - TURNO B: ASIGNATURA: "+str(VIERNES['B'])+" - TURNO C: ASIGNATURA: "+str(VIERNES['C'])+" - TURNO D: ASIGNATURA: "+str(VIERNES['D'])+" - TURNO E - ASIGNATURA: "+str(VIERNES['E'])+"\n"
 
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla1+Pantalla2+Pantalla3+Pantalla4+Pantalla5+Pantalla6+Pantalla7+Pantalla8+Pantalla9+Pantalla10+Pantalla11)
+    
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+
+# --------- Funcion para mostrar el horario de un dia en particular de un aula en especifico--------
 def COMANDOHorario(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    if recibido[10:15] == "Lunes":
-        print("Horario Lunes -> Aula: ",recibido[0])
-        print("TURNO A: ASIGNATURA: ",LUNES['A'],"- TURNO B: ASIGNATURA: ",LUNES['B']," - TURNO C: ASIGNATURA: ",LUNES['C']," - TURNO D: ASIGNATURA: ",LUNES['D']," - TURNO E - ASIGNATURA: ",LUNES['E'])
-    elif recibido[10:16] == "Martes":
-        print("Horario Martes -> Aula: ",recibido[0])
-        print("TURNO A: ASIGNATURA: ",MARTES['A'],"- TURNO B: ASIGNATURA: ",MARTES['B']," - TURNO C: ASIGNATURA: ",MARTES['C']," - TURNO D: ASIGNATURA: ",MARTES['D']," - TURNO E - ASIGNATURA: ",MARTES['E'])
-    elif recibido[10:19] == "Miercoles":
-        print("Horario Miercoles -> Aula: ",recibido[0])
-        print("TURNO A: ASIGNATURA:",MIERCOLES['A'],"- TURNO B: ASIGNATURA: ",MIERCOLES['B']," - TURNO C: ASIGNATURA: ",MIERCOLES['C']," - TURNO D: ASIGNATURA: ",MIERCOLES['D']," - TURNO E - ASIGNATURA: ",MIERCOLES['E'])
-    elif recibido[10:16] == "Jueves ":
-        print("Horario Jueves -> Aula: ",recibido[0])
-        print("TURNO A: ASIGNATURA: ",JUEVES['A'],"- TURNO B: ASIGNATURA: ",JUEVES['B']," - TURNO C: ASIGNATURA: ",JUEVES['C']," - TURNO D: ASIGNATURA: ",JUEVES['D']," - TURNO E - ASIGNATURA: ",JUEVES['E'])
-    elif recibido[10:17] == "Viernes":
-        print("Horario Viernes -> Aula: ",recibido[0])
-        print("TURNO A: ASIGNATURA: ",VIERNES['A'],"- TURNO B: ASIGNATURA: ",VIERNES['B']," - TURNO C: ASIGNATURA: ",VIERNES['C']," - TURNO D: ASIGNATURA: ",VIERNES['D']," - TURNO E - ASIGNATURA: ",VIERNES['E'])
+    try:
+        if recibido[10:15] == "Lunes":
+            Pantalla1 = "Horario Lunes -> Aula: "+str(recibido[0])+"\n"
+            Pantalla2 = "TURNO A: ASIGNATURA: "+str(LUNES['A'])+" - TURNO B: ASIGNATURA: "+str(LUNES['B'])+" - TURNO C: ASIGNATURA: "+str(LUNES['C'])+" - TURNO D: ASIGNATURA: "+str(LUNES['D'])+" - TURNO E - ASIGNATURA: "+str(LUNES['E'])+"\n"
+    
+        elif recibido[10:16] == "Martes":
+            Pantalla1 = " Horario Martes -> Aula: "+str(recibido[0])+"\n"
+            Pantalla2 = " TURNO A: ASIGNATURA: "+str(MARTES['A'])+" - TURNO B: ASIGNATURA: "+str(MARTES['B'])+" - TURNO C: ASIGNATURA: "+str(MARTES['C'])+" - TURNO D: ASIGNATURA: "+str(MARTES['D'])+" - TURNO E - ASIGNATURA: "+str(MARTES['E'])+"\n"
+    
+        elif recibido[10:19] == "Miercoles":
+            Pantalla1 = " Horario Miercoles -> Aula: "+str(recibido[0])+"\n"
+            Pantalla2 = " TURNO A: ASIGNATURA:"+str(MIERCOLES['A'])+" - TURNO B: ASIGNATURA: "+str(MIERCOLES['B'])+" - TURNO C: ASIGNATURA: "+str(MIERCOLES['C'])+" - TURNO D: ASIGNATURA: "+str(MIERCOLES['D'])+" - TURNO E - ASIGNATURA: "+str(MIERCOLES['E'])+"\n"
+    
+        elif recibido[10:16] == "Jueves ":
+            Pantalla1 = " Horario Jueves -> Aula: "+str(recibido[0])+"\n"
+            Pantalla2 = " TURNO A: ASIGNATURA: "+str(JUEVES['A'])+" - TURNO B: ASIGNATURA: "+str(JUEVES['B'])+" - TURNO C: ASIGNATURA: "+str(JUEVES['C'])+" - TURNO D: ASIGNATURA: "+str(JUEVES['D'])+" - TURNO E - ASIGNATURA: "+str(JUEVES['E'])+"\n"
+    
+        elif recibido[10:17] == "Viernes":
+            Pantalla1 = " Horario Viernes -> Aula: "+str(recibido[0])+"\n"
+            Pantalla2 = " TURNO A: ASIGNATURA: "+str(VIERNES['A'])+"- TURNO B: ASIGNATURA: "+str(VIERNES['B'])+" - TURNO C: ASIGNATURA: "+str(VIERNES['C'])+" - TURNO D: ASIGNATURA: "+str(VIERNES['D'])+" - TURNO E - ASIGNATURA: "+str(VIERNES['E'])+"\n"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla1+Pantalla2)
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
 
+# --------- Funcion para mostrar el horario semanal de cada aula --------
 def COMANDOCadaAula(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    if recibido[9:14] == "Lunes":
-        print("Horario Lunes Aula A\n")
-        print("TURNO A: ASIGNATURA: ",Aula_A_Lunes['A'],"- TURNO B: ASIGNATURA: ",Aula_A_Lunes['B']," - TURNO C: ASIGNATURA: ",Aula_A_Lunes['C']," - TURNO D: ASIGNATURA: ",Aula_A_Lunes['D']," - TURNO E - ASIGNATURA: ",Aula_A_Lunes['E'])
-        print("Horario Lunes Aula B\n")
-        print("TURNO A: ASIGNATURA: ",Aula_B_Lunes['A'],"- TURNO B: ASIGNATURA: ",Aula_B_Lunes['B']," - TURNO C: ASIGNATURA: ",Aula_B_Lunes['C']," - TURNO D: ASIGNATURA: ",Aula_B_Lunes['D']," - TURNO E - ASIGNATURA: ",Aula_B_Lunes['E'])
-        print("Horario Lunes Aula C\n")
-        print("TURNO A: ASIGNATURA: ",Aula_C_Lunes['A'],"- TURNO B: ASIGNATURA: ",Aula_C_Lunes['B']," - TURNO C: ASIGNATURA: ",Aula_C_Lunes['C']," - TURNO D: ASIGNATURA: ",Aula_C_Lunes['D']," - TURNO E - ASIGNATURA: ",Aula_C_Lunes['E'])
-    if recibido[9:15] == "Martes":
-        print("Horario Martes Aula A\n")
-        print("TURNO A: ASIGNATURA: ",Aula_A_Martes['A'],"- TURNO B: ASIGNATURA: ",Aula_A_Martes['B']," - TURNO C: ASIGNATURA: ",Aula_A_Martes['C']," - TURNO D: ASIGNATURA: ",Aula_A_Martes['D']," - TURNO E - ASIGNATURA: ",Aula_A_Martes['E'])
-        print("Horario Martes Aula B\n")
-        print("TURNO A: ASIGNATURA: ",Aula_B_Martes['A'],"- TURNO B: ASIGNATURA: ",Aula_B_Martes['B']," - TURNO C: ASIGNATURA: ",Aula_B_Martes['C']," - TURNO D: ASIGNATURA: ",Aula_B_Martes['D']," - TURNO E - ASIGNATURA: ",Aula_B_Martes['E'])
-        print("Horario MArtes Aula C\n")
-        print("TURNO A: ASIGNATURA: ",Aula_C_Martes['A'],"- TURNO B: ASIGNATURA: ",Aula_C_Martes['B']," - TURNO C: ASIGNATURA: ",Aula_C_Martes['C']," - TURNO D: ASIGNATURA: ",Aula_C_Martes['D']," - TURNO E - ASIGNATURA: ",Aula_C_Martes['E'])
-    if recibido[9:18] == "Miercoles":
-        print("Horario Miercoles Aula A\n")
-        print("TURNO A: ASIGNATURA: ",Aula_A_Miercoles['A'],"- TURNO B: ASIGNATURA: ",Aula_A_Miercoles['B']," - TURNO C: ASIGNATURA: ",Aula_A_Miercoles['C']," - TURNO D: ASIGNATURA: ",Aula_A_Miercoles['D']," - TURNO E - ASIGNATURA: ",Aula_A_Miercoles['E'])
-        print("Horario Miercoles Aula B\n")
-        print("TURNO A: ASIGNATURA: ",Aula_B_Miercoles['A'],"- TURNO B: ASIGNATURA: ",Aula_B_Miercoles['B']," - TURNO C: ASIGNATURA: ",Aula_B_Miercoles['C']," - TURNO D: ASIGNATURA: ",Aula_B_Miercoles['D']," - TURNO E - ASIGNATURA: ",Aula_B_Miercoles['E'])
-        print("Horario Miercoles Aula C\n")
-        print("TURNO A: ASIGNATURA: ",Aula_C_Miercoles['A'],"- TURNO B: ASIGNATURA: ",Aula_C_Miercoles['B']," - TURNO C: ASIGNATURA: ",Aula_C_Miercoles['C']," - TURNO D: ASIGNATURA: ",Aula_C_Miercoles['D']," - TURNO E - ASIGNATURA: ",Aula_C_Miercoles['E'])
-    if recibido[9:15] == "Jueves":
-        print("Horario Jueves Aula A\n")
-        print("TURNO A: ASIGNATURA: ",Aula_A_Jueves['A'],"- TURNO B: ASIGNATURA: ",Aula_A_Jueves['B']," - TURNO C: ASIGNATURA: ",Aula_A_Jueves['C']," - TURNO D: ASIGNATURA: ",Aula_A_Jueves['D']," - TURNO E - ASIGNATURA: ",Aula_A_Jueves['E'])
-        print("Horario Jueves Aula B\n")
-        print("TURNO A: ASIGNATURA: ",Aula_B_Jueves['A'],"- TURNO B: ASIGNATURA: ",Aula_B_Jueves['B']," - TURNO C: ASIGNATURA: ",Aula_B_Jueves['C']," - TURNO D: ASIGNATURA: ",Aula_B_Jueves['D']," - TURNO E - ASIGNATURA: ",Aula_B_Jueves['E'])
-        print("Horario Jueves Aula C\n")
-        print("TURNO A: ASIGNATURA: ",Aula_C_Jueves['A'],"- TURNO B: ASIGNATURA: ",Aula_C_Jueves['B']," - TURNO C: ASIGNATURA: ",Aula_C_Jueves['C']," - TURNO D: ASIGNATURA: ",Aula_C_Jueves['D']," - TURNO E - ASIGNATURA: ",Aula_C_Jueves['E'])
-    if recibido[9:16] == "Viernes":
-        print("Horario Viernes Aula A\n")
-        print("TURNO A: ASIGNATURA: ",Aula_A_Viernes['A'],"- TURNO B: ASIGNATURA: ",Aula_A_Viernes['B']," - TURNO C: ASIGNATURA: ",Aula_A_Viernes['C']," - TURNO D: ASIGNATURA: ",Aula_A_Viernes['D']," - TURNO E - ASIGNATURA: ",Aula_A_Viernes['E'])
-        print("Horario Viernes Aula B\n")
-        print("TURNO A: ASIGNATURA: ",Aula_B_Viernes['A'],"- TURNO B: ASIGNATURA: ",Aula_B_Viernes['B']," - TURNO C: ASIGNATURA: ",Aula_B_Viernes['C']," - TURNO D: ASIGNATURA: ",Aula_B_Viernes['D']," - TURNO E - ASIGNATURA: ",Aula_B_Viernes['E'])
-        print("Horario Viernes Aula C\n")
-        print("TURNO A: ASIGNATURA: ",Aula_C_Viernes['A'],"- TURNO B: ASIGNATURA: ",Aula_C_Viernes['B']," - TURNO C: ASIGNATURA: ",Aula_C_Viernes['C']," - TURNO D: ASIGNATURA: ",Aula_C_Viernes['D']," - TURNO E - ASIGNATURA: ",Aula_C_Viernes['E'])
+    try:
+        if recibido[9:14] == "Lunes":
+            Pantalla1 = " Horario Lunes Aula A\n"
+            Pantalla2 = " TURNO A: ASIGNATURA: "+str(Aula_A_Lunes['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_A_Lunes['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_A_Lunes['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_A_Lunes['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_A_Lunes['E'])+"\n"
+            Pantalla3 = " Horario Lunes Aula B\n"
+            Pantalla4 = " TURNO A: ASIGNATURA: "+str(Aula_B_Lunes['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_B_Lunes['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_B_Lunes['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_B_Lunes['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_B_Lunes['E'])+"\n"
+            Pantalla5 = " Horario Lunes Aula C\n"
+            Pantalla6 = " TURNO A: ASIGNATURA: "+str(Aula_C_Lunes['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_C_Lunes['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_C_Lunes['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_C_Lunes['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_C_Lunes['E'])+"\n"
+        elif recibido[9:15] == "Martes":
+            Pantalla1 = " Horario Martes Aula A\n"
+            Pantalla2 = " TURNO A: ASIGNATURA: "+str(Aula_A_Martes['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_A_Martes['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_A_Martes['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_A_Martes['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_A_Martes['E'])+"\n"
+            Pantalla3 = " Horario Martes Aula B\n"
+            Pantalla4 = " TURNO A: ASIGNATURA: "+str(Aula_B_Martes['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_B_Martes['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_B_Martes['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_B_Martes['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_B_Martes['E'])+"\n"
+            Pantalla5 = " Horario Martes Aula C\n"
+            Pantalla6 = " TURNO A: ASIGNATURA: "+str(Aula_C_Martes['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_C_Martes['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_C_Martes['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_C_Martes['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_C_Martes['E'])+"\n"
+        elif recibido[9:18] == "Miercoles":
+            Pantalla1 = " Horario Miercoles Aula A\n"
+            Pantalla2 = " TURNO A: ASIGNATURA: "+str(Aula_A_Miercoles['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_A_Miercoles['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_A_Miercoles['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_A_Miercoles['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_A_Miercoles['E'])+"\n"
+            Pantalla3 = " Horario Miercoles Aula B\n"
+            Pantalla4 = " TURNO A: ASIGNATURA: "+str(Aula_B_Miercoles['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_B_Miercoles['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_B_Miercoles['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_B_Miercoles['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_B_Miercoles['E'])+"\n"
+            Pantalla5 = " Horario Miercoles Aula C\n"
+            Pantalla6 = " TURNO A: ASIGNATURA: "+str(Aula_C_Miercoles['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_C_Miercoles['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_C_Miercoles['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_C_Miercoles['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_C_Miercoles['E'])+"\n"
+        elif recibido[9:15] == "Jueves":
+            Pantalla1 = " Horario Jueves Aula A\n"
+            Pantalla2 = " TURNO A: ASIGNATURA: "+str(Aula_A_Jueves['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_A_Jueves['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_A_Jueves['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_A_Jueves['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_A_Jueves['E'])+"\n"
+            Pantalla3 = " Horario Jueves Aula B\n"
+            Pantalla4 = " TURNO A: ASIGNATURA: "+str(Aula_B_Jueves['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_B_Jueves['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_B_Jueves['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_B_Jueves['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_B_Jueves['E'])+"\n"
+            Pantalla5 = " Horario Jueves Aula C\n"
+            Pantalla6 = " TURNO A: ASIGNATURA: "+str(Aula_C_Jueves['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_C_Jueves['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_C_Jueves['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_C_Jueves['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_C_Jueves['E'])+"\n"
+        elif recibido[9:16] == "Viernes":
+            Pantalla1 = " Horario Viernes Aula A\n"
+            Pantalla2 = " TURNO A: ASIGNATURA: "+str(Aula_A_Viernes['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_A_Viernes['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_A_Viernes['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_A_Viernes['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_A_Viernes['E'])+"\n"
+            Pantalla3 = " Horario Viernes Aula B\n"
+            Pantalla4 = " TURNO A: ASIGNATURA: "+str(Aula_B_Viernes['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_B_Viernes['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_B_Viernes['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_B_Viernes['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_B_Viernes['E'])+"\n"
+            Pantalla5 = " Horario Viernes Aula C\n"
+            Pantalla6 = " TURNO A: ASIGNATURA: "+str(Aula_C_Viernes['A'])+" - TURNO B: ASIGNATURA: "+str(Aula_C_Viernes['B'])+" - TURNO C: ASIGNATURA: "+str(Aula_C_Viernes['C'])+" - TURNO D: ASIGNATURA: "+str(Aula_C_Viernes['D'])+" - TURNO E - ASIGNATURA: "+str(Aula_C_Viernes['E'])+"\n"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla1+Pantalla2+Pantalla3+Pantalla4+Pantalla5+Pantalla6)
 
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+
+# --------- Funcion para saber en que bloques de cada aula se dicta determinada asignatura--------
 def COMANDOAsignaturaInfo(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    for i in Aula_A_Lunes:
-        if Aula_A_Lunes[i] == int(recibido[15:17]):
-            print("Aula A: Lunes -> Bloque",i)
-    for i in Aula_A_Martes:
-        if Aula_A_Martes[i] == int(recibido[15:17]):
-            print("Aula A: Martes -> Bloque",i)
-    for i in Aula_A_Miercoles:
-        if Aula_A_Miercoles[i] == int(recibido[15:17]):
-            print("Aula A: Miercoles -> Bloque",i)
-    for i in Aula_A_Jueves:
-        if Aula_A_Jueves[i] == int(recibido[15:17]):
-            print("Aula A: Jueves -> Bloque",i)
-    for i in Aula_A_Viernes:
-        if Aula_A_Viernes[i] == int(recibido[15:17]):
-            print("Aula A: Viernes -> Bloque",i)
+    try:
+        for i in Aula_A_Lunes:
+            if Aula_A_Lunes[i] == int(recibido[15:17]):
+                Pantalla = "Aula A: Lunes -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_A_Martes:
+            if Aula_A_Martes[i] == int(recibido[15:17]):
+                Pantalla = "Aula A: Martes -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_A_Miercoles:
+            if Aula_A_Miercoles[i] == int(recibido[15:17]):
+                Pantalla = "Aula A: Miercoles -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_A_Jueves:
+            if Aula_A_Jueves[i] == int(recibido[15:17]):
+                Pantalla = "Aula A: Jueves -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_A_Viernes:
+            if Aula_A_Viernes[i] == int(recibido[15:17]):
+                Pantalla = "Aula A: Viernes -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
 
-    for i in Aula_B_Lunes:
-        if Aula_B_Lunes[i] == int(recibido[15:17]):
-            print("Aula B: Lunes -> Bloque",i)
-    for i in Aula_B_Martes:
-        if Aula_B_Martes[i] == int(recibido[15:17]):
-            print("Aula B: Martes -> Bloque",i)
-    for i in Aula_B_Miercoles:
-        if Aula_B_Miercoles[i] == int(recibido[15:17]):
-            print("Aula B: Miercoles -> Bloque",i)
-    for i in Aula_B_Jueves:
-        if Aula_B_Jueves[i] == int(recibido[15:17]):
-            print("Aula B: Jueves -> Bloque",i)
-    for i in Aula_B_Viernes:
-        if Aula_B_Viernes[i] == int(recibido[15:17]):
-            print("Aula B: Viernes -> Bloque",i)
+        for i in Aula_B_Lunes:
+            if Aula_B_Lunes[i] == int(recibido[15:17]):
+                Pantalla = "Aula B: Lunes -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_B_Martes:
+            if Aula_B_Martes[i] == int(recibido[15:17]):
+                Pantalla = "Aula B: Martes -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_B_Miercoles:
+            if Aula_B_Miercoles[i] == int(recibido[15:17]):
+                Pantalla = "Aula B: Miercoles -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_B_Jueves:
+            if Aula_B_Jueves[i] == int(recibido[15:17]):
+                Pantalla = "Aula B: Jueves -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_B_Viernes:
+            if Aula_B_Viernes[i] == int(recibido[15:17]):
+                Pantalla = "Aula B: Viernes -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
 
-    for i in Aula_C_Lunes:
-        if Aula_C_Lunes[i] == int(recibido[15:17]):
-            print("Aula C: Lunes -> Bloque",i)
-    for i in Aula_C_Martes:
-        if Aula_C_Martes[i] == int(recibido[15:17]):
-            print("Aula C: Martes -> Bloque",i)
-    for i in Aula_C_Miercoles:
-        if Aula_C_Miercoles[i] == int(recibido[15:17]):
-            print("Aula C: Miercoles -> Bloque",i)
-    for i in Aula_C_Jueves:
-        if Aula_C_Jueves[i] == int(recibido[15:17]):
-            print("Aula C: Jueves -> Bloque",i)
-    for i in Aula_C_Viernes:
-        if Aula_C_Viernes[i] == int(recibido[15:17]):
-            print("Aula C: Viernes -> Bloque",i)
+        for i in Aula_C_Lunes:
+            if Aula_C_Lunes[i] == int(recibido[15:17]):
+                Pantalla = "Aula C: Lunes -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_C_Martes:
+            if Aula_C_Martes[i] == int(recibido[15:17]):
+                Pantalla = "Aula C: Martes -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_C_Miercoles:
+            if Aula_C_Miercoles[i] == int(recibido[15:17]):
+                Pantalla = "Aula C: Miercoles -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_C_Jueves:
+            if Aula_C_Jueves[i] == int(recibido[15:17]):
+                Pantalla = "Aula C: Jueves -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+        for i in Aula_C_Viernes:
+            if Aula_C_Viernes[i] == int(recibido[15:17]):
+                Pantalla = "Aula C: Viernes -> Bloque "+str(i)+"\n"
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+    
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
 
+# --------- Funcion para elminar todas las asignaturas de un dia en especifico --------
 def COMANDOEliminaDia(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    if recibido[13:18] == "Lunes":
+    try:
+        if recibido[13:18] == "Lunes":
+            LUNES['A'] = 0
+            LUNES['B'] = 0
+            LUNES['C'] = 0
+            LUNES['D'] = 0
+            LUNES['E'] = 0
+            if recibido[0] == "A":
+                Aula_A_Lunes = LUNES
+            elif recibido[0] == "B":
+                Aula_B_Lunes = LUNES
+            elif recibido[0] == "C":
+                Aula_C_Lunes = LUNES
+
+        elif recibido[13:19] == "Martes":
+            MARTES['A'] = 0
+            MARTES['B'] = 0
+            MARTES['C'] = 0
+            MARTES['D'] = 0
+            MARTES['E'] = 0
+            if recibido[0] == "A":
+                Aula_A_Martes = MARTES
+            elif recibido[0] == "B":
+                Aula_B_Martes = MARTES
+            elif recibido[0] == "C":
+                Aula_C_Martes = MARTES
+
+        elif recibido[13:22] == "Miercoles":
+            MIERCOLES['A'] = 0
+            MIERCOLES['B'] = 0
+            MIERCOLES['C'] = 0
+            MIERCOLES['D'] = 0
+            MIERCOLES['E'] = 0
+            if recibido[0] == "A":
+                Aula_A_Miercoles = MIERCOLES
+            elif recibido[0] == "B":
+                Aula_B_Miercoles = MIERCOLES
+            elif recibido[0] == "C":
+                Aula_C_Miercoles = MIERCOLES
+    
+        elif recibido[13:19] == "Jueves":
+            JUEVES['A'] = 0
+            JUEVES['B'] = 0
+            JUEVES['C'] = 0
+            JUEVES['D'] = 0
+            JUEVES['E'] = 0
+            if recibido[0] == "A":
+                Aula_A_Jueves = JUEVES
+            elif recibido[0] == "B":
+                Aula_B_Jueves = JUEVES
+            elif recibido[0] == "C":
+                Aula_C_Jueves = JUEVES
+    
+        elif recibido[13:20] == "Viernes":
+            VIERNES['A'] = 0
+            VIERNES['B'] = 0
+            VIERNES['C'] = 0
+            VIERNES['D'] = 0
+            VIERNES['E'] = 0
+            if recibido[0] == "A":
+                Aula_A_Viernes = VIERNES
+            elif recibido[0] == "B":
+                Aula_B_Viernes = VIERNES
+            elif recibido[0] == "C":
+                Aula_C_Viernes = VIERNES
+
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+
+# --------- Funcion para reiniciar todos los horarios de un aula en especifico --------
+def COMANDOEliminaHorario(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
+    try:
         LUNES['A'] = 0
         LUNES['B'] = 0
         LUNES['C'] = 0
         LUNES['D'] = 0
         LUNES['E'] = 0
-        if recibido[0] == "A":
-            Aula_A_Lunes = LUNES
-        elif recibido[0] == "B":
-            Aula_B_Lunes = LUNES
-        elif recibido[0] == "C":
-            Aula_C_Lunes = LUNES
-
-    elif recibido[13:19] == "Martes":
         MARTES['A'] = 0
         MARTES['B'] = 0
         MARTES['C'] = 0
         MARTES['D'] = 0
         MARTES['E'] = 0
-        if recibido[0] == "A":
-           Aula_A_Martes = MARTES
-        elif recibido[0] == "B":
-           Aula_B_Martes = MARTES
-        elif recibido[0] == "C":
-           Aula_C_Martes = MARTES
-
-    elif recibido[13:22] == "Miercoles":
         MIERCOLES['A'] = 0
         MIERCOLES['B'] = 0
         MIERCOLES['C'] = 0
         MIERCOLES['D'] = 0
         MIERCOLES['E'] = 0
-        if recibido[0] == "A":
-           Aula_A_Miercoles = MIERCOLES
-        elif recibido[0] == "B":
-           Aula_B_Miercoles = MIERCOLES
-        elif recibido[0] == "C":
-           Aula_C_Miercoles = MIERCOLES
-    
-    elif recibido[13:19] == "Jueves":
         JUEVES['A'] = 0
         JUEVES['B'] = 0
         JUEVES['C'] = 0
         JUEVES['D'] = 0
         JUEVES['E'] = 0
-        if recibido[0] == "A":
-           Aula_A_Jueves = JUEVES
-        elif recibido[0] == "B":
-           Aula_B_Jueves = JUEVES
-        elif recibido[0] == "C":
-           Aula_C_Jueves = JUEVES
-    
-    elif recibido[13:20] == "Viernes":
         VIERNES['A'] = 0
         VIERNES['B'] = 0
         VIERNES['C'] = 0
         VIERNES['D'] = 0
         VIERNES['E'] = 0
         if recibido[0] == "A":
-           Aula_A_Viernes = VIERNES
-        elif recibido[0] == "B":
-           Aula_B_Viernes = VIERNES
-        elif recibido[0] == "C":
-           Aula_C_Viernes = VIERNES
+            Aula_A_Lunes = LUNES
+            Aula_A_Martes = MARTES
+            Aula_A_Miercoles = MIERCOLES
+            Aula_A_Jueves = JUEVES
+            Aula_A_Viernes = VIERNES
+        if recibido[0] == "B":
+            Aula_B_Lunes = LUNES
+            Aula_B_Martes = MARTES
+            Aula_B_Miercoles = MIERCOLES
+            Aula_B_Jueves = JUEVES
+            Aula_B_Viernes = VIERNES
+        if recibido[0] == "C":
+            Aula_C_Lunes = LUNES
+            Aula_C_Martes = MARTES
+            Aula_C_Miercoles = MIERCOLES
+            Aula_C_Jueves = JUEVES
+            Aula_C_Viernes = VIERNES
 
-def COMANDOEliminaHorario(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    LUNES['A'] = 0
-    LUNES['B'] = 0
-    LUNES['C'] = 0
-    LUNES['D'] = 0
-    LUNES['E'] = 0
-    MARTES['A'] = 0
-    MARTES['B'] = 0
-    MARTES['C'] = 0
-    MARTES['D'] = 0
-    MARTES['E'] = 0
-    MIERCOLES['A'] = 0
-    MIERCOLES['B'] = 0
-    MIERCOLES['C'] = 0
-    MIERCOLES['D'] = 0
-    MIERCOLES['E'] = 0
-    JUEVES['A'] = 0
-    JUEVES['B'] = 0
-    JUEVES['C'] = 0
-    JUEVES['D'] = 0
-    JUEVES['E'] = 0
-    VIERNES['A'] = 0
-    VIERNES['B'] = 0
-    VIERNES['C'] = 0
-    VIERNES['D'] = 0
-    VIERNES['E'] = 0
-    if recibido[0] == "A":
-        Aula_A_Lunes = LUNES
-        Aula_A_Martes = MARTES
-        Aula_A_Miercoles = MIERCOLES
-        Aula_A_Jueves = JUEVES
-        Aula_A_Viernes = VIERNES
-    if recibido[0] == "B":
-        Aula_B_Lunes = LUNES
-        Aula_B_Martes = MARTES
-        Aula_B_Miercoles = MIERCOLES
-        Aula_B_Jueves = JUEVES
-        Aula_B_Viernes = VIERNES
-    if recibido[0] == "C":
-        Aula_C_Lunes = LUNES
-        Aula_C_Martes = MARTES
-        Aula_C_Miercoles = MIERCOLES
-        Aula_C_Jueves = JUEVES
-        Aula_C_Viernes = VIERNES
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
 
+# --------- Funcion para eliminar una asignatura en especifico de cada dia y cada bloque de cada aula--------
 def COMANDOAsignaturaEliminada(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    for i in Aula_A_Lunes:
-        if Aula_A_Lunes[i] == int(recibido[20:22]):
+    try:
+        for i in Aula_A_Lunes:
+            if Aula_A_Lunes[i] == int(recibido[20:22]):
+                Aula_A_Lunes[i] = 0
+        for i in Aula_A_Martes:
+            if Aula_A_Martes[i] == int(recibido[20:22]):
+                Aula_A_Martes[i] = 0
+        for i in Aula_A_Miercoles:
+            if Aula_A_Miercoles[i] == int(recibido[20:22]):
+                Aula_A_Miercoles[i] = 0
+        for i in Aula_A_Jueves:
+            if Aula_A_Jueves[i] == int(recibido[20:22]):
+                Aula_A_Jueves[i] = 0
+        for i in Aula_A_Viernes:
+            if Aula_A_Viernes[i] == int(recibido[20:22]):
+                Aula_A_Viernes[i] = 0
+
+        for i in Aula_B_Lunes:
+            if Aula_B_Lunes[i] == int(recibido[20:22]):
+                Aula_B_Lunes[i] = 0
+        for i in Aula_B_Martes:
+            if Aula_B_Martes[i] == int(recibido[20:22]):
+                Aula_B_Martes[i] = 0
+        for i in Aula_B_Miercoles:
+            if Aula_B_Miercoles[i] == int(recibido[20:22]):
+                Aula_B_Miercoles[i] = 0
+        for i in Aula_B_Jueves:
+            if Aula_B_Jueves[i] == int(recibido[20:22]):
+                Aula_B_Jueves[i] = 0
+        for i in Aula_B_Viernes:
+            if Aula_B_Viernes[i] == int(recibido[20:22]):
+                Aula_B_Viernes[i] = 0
+    
+        for i in Aula_C_Lunes:
+            if Aula_C_Lunes[i] == int(recibido[20:22]):
+                Aula_C_Lunes[i] = 0
+        for i in Aula_C_Martes:
+            if Aula_C_Martes[i] == int(recibido[20:22]):
+                Aula_C_Martes[i] = 0
+        for i in Aula_C_Miercoles:
+            if Aula_C_Miercoles[i] == int(recibido[20:22]):
+                Aula_C_Miercoles[i] = 0
+        for i in Aula_C_Jueves:
+            if Aula_C_Jueves[i] == int(recibido[20:22]):
+                Aula_C_Jueves[i] = 0
+        for i in Aula_C_Viernes:
+            if Aula_C_Viernes[i] == int(recibido[20:22]):
+                Aula_C_Viernes[i] = 0
+
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
+
+# --------- Funcion para reiniciar topdos los horarios --------
+def COMANDOBorrarTodo(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
+    try:
+        for i in Aula_A_Lunes:
             Aula_A_Lunes[i] = 0
-    for i in Aula_A_Martes:
-        if Aula_A_Martes[i] == int(recibido[20:22]):
+        for i in Aula_A_Martes:
             Aula_A_Martes[i] = 0
-    for i in Aula_A_Miercoles:
-        if Aula_A_Miercoles[i] == int(recibido[20:22]):
+        for i in Aula_A_Miercoles:
             Aula_A_Miercoles[i] = 0
-    for i in Aula_A_Jueves:
-        if Aula_A_Jueves[i] == int(recibido[20:22]):
+        for i in Aula_A_Jueves:
             Aula_A_Jueves[i] = 0
-    for i in Aula_A_Viernes:
-        if Aula_A_Viernes[i] == int(recibido[20:22]):
+        for i in Aula_A_Viernes:
             Aula_A_Viernes[i] = 0
 
-    for i in Aula_B_Lunes:
-        if Aula_B_Lunes[i] == int(recibido[20:22]):
+        for i in Aula_B_Lunes:
             Aula_B_Lunes[i] = 0
-    for i in Aula_B_Martes:
-        if Aula_B_Martes[i] == int(recibido[20:22]):
+        for i in Aula_B_Martes:
             Aula_B_Martes[i] = 0
-    for i in Aula_B_Miercoles:
-        if Aula_B_Miercoles[i] == int(recibido[20:22]):
+        for i in Aula_B_Miercoles:
             Aula_B_Miercoles[i] = 0
-    for i in Aula_B_Jueves:
-        if Aula_B_Jueves[i] == int(recibido[20:22]):
+        for i in Aula_B_Jueves:
             Aula_B_Jueves[i] = 0
-    for i in Aula_B_Viernes:
-        if Aula_B_Viernes[i] == int(recibido[20:22]):
+        for i in Aula_B_Viernes:
             Aula_B_Viernes[i] = 0
     
-    for i in Aula_C_Lunes:
-        if Aula_C_Lunes[i] == int(recibido[20:22]):
+        for i in Aula_C_Lunes:
             Aula_C_Lunes[i] = 0
-    for i in Aula_C_Martes:
-        if Aula_C_Martes[i] == int(recibido[20:22]):
+        for i in Aula_C_Martes:
             Aula_C_Martes[i] = 0
-    for i in Aula_C_Miercoles:
-        if Aula_C_Miercoles[i] == int(recibido[20:22]):
+        for i in Aula_C_Miercoles:
             Aula_C_Miercoles[i] = 0
-    for i in Aula_C_Jueves:
-        if Aula_C_Jueves[i] == int(recibido[20:22]):
+        for i in Aula_C_Jueves:
             Aula_C_Jueves[i] = 0
-    for i in Aula_C_Viernes:
-        if Aula_C_Viernes[i] == int(recibido[20:22]):
+        for i in Aula_C_Viernes:
             Aula_C_Viernes[i] = 0
-
-def COMANDOBorrarTodo(recibido,LUNES,MARTES,MIERCOLES,JUEVES,VIERNES):
-    for i in Aula_A_Lunes:
-        Aula_A_Lunes[i] = 0
-    for i in Aula_A_Martes:
-        Aula_A_Martes[i] = 0
-    for i in Aula_A_Miercoles:
-        Aula_A_Miercoles[i] = 0
-    for i in Aula_A_Jueves:
-        Aula_A_Jueves[i] = 0
-    for i in Aula_A_Viernes:
-        Aula_A_Viernes[i] = 0
-
-    for i in Aula_B_Lunes:
-        Aula_B_Lunes[i] = 0
-    for i in Aula_B_Martes:
-        Aula_B_Martes[i] = 0
-    for i in Aula_B_Miercoles:
-        Aula_B_Miercoles[i] = 0
-    for i in Aula_B_Jueves:
-        Aula_B_Jueves[i] = 0
-    for i in Aula_B_Viernes:
-        Aula_B_Viernes[i] = 0
     
-    for i in Aula_C_Lunes:
-        Aula_C_Lunes[i] = 0
-    for i in Aula_C_Martes:
-        Aula_C_Martes[i] = 0
-    for i in Aula_C_Miercoles:
-        Aula_C_Miercoles[i] = 0
-    for i in Aula_C_Jueves:
-        Aula_C_Jueves[i] = 0
-    for i in Aula_C_Viernes:
-        Aula_C_Viernes[i] = 0
+    except:
+        Pantalla = "Hubo un error al ingresar el comando, vuelva a intentar"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
 
+
+# --------- Funcion para asignar como día libre el siguiente día --------
 def COMANDODiasLibres(dia_libre):
     print("SI ESTA ENTRANDO")
     FERIADO = 1
 
+####################################################
+# --------- Funcion de Recepción de mensaje --------
+####################################################
 
-def mensajeMQTT_AULA(client, userdata, msg):
+def mensajeMQTT_Horario(client, userdata, msg):
     recibido = msg.payload.decode()
     if recibido[0] == "A":
         print("ESTAMOS EN EL SALON A")
@@ -592,18 +740,20 @@ def mensajeMQTT_AULA(client, userdata, msg):
         Aula_MIERCOLES = Aula_C_Miercoles
         Aula_JUEVES = Aula_C_Jueves
         Aula_VIERNES = Aula_C_Viernes
-    else:
-        print("SALON INCORRECTO")
+    elif recibido[0] != "E" or recibido[0] != "H" or recibido[0] != "D":
+        print("Comando INCORRECTO. Vuelva a intentar")
         client.disconnect()
+    elif recibido[0] == "x" or recibido[0] == "X":
+        client.disconnect()
+
 # COmando CambiarBloque"
-# Aula CambiarBloque BLOQUE LUNES #Asig MARTES #Asig MIercoles #ASig Jueves #Asig Viernes #Asig 
+# Aula(Solo letra) CambiarBloque BLOQUE LUNES #Asig MARTES #Asig MIercoles #ASig Jueves #Asig Viernes #Asig 
     if recibido[2:15] == "CambiarBloque":
         COMANDOCambiarBloque(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()
 
 # COMANDO ConfigurarDIa
-#Aula configura r d i a   L U N E S   B L O Q U E A   1   B L O Q U E B   1   B L O Q U E C   1   B L O Q U E D   1   B L O Q U E E   1
-#   012345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970       
+#Aula(Solo letra) Configurardia LUNES BLOQUEA 1 BLOQUEB 2 BLOQUEC 3 BLOQUED 4 BLOQUEE 5   
     elif recibido[2:15] == "ConfigurarDia":
         COMANDOConfigurardia(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()
@@ -615,52 +765,54 @@ def mensajeMQTT_AULA(client, userdata, msg):
         client.disconnect()
 
 # COMANDO HorarioSemana(De todos los dias)
-        #AULA HorarioSemana
+#AULA(Solo letra) HorarioSemana
     elif recibido[2:15] == "HorarioSemana":
         COMANDOHorarioSemana(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()
+
 # COMANDO Horario(De un dia)
-        # AULA HORARIO Dia 
+# AULA(Solo letra) HORARIO Dia 
     elif recibido[2:9] == "Horario":
         COMANDOHorario(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()
 
 # COMANDO CadaAula para un dia determinado
-        # CadaAula DIA 
+# CadaAula DIA 
     elif recibido[0:8] == "CadaAula":
         COMANDOCadaAula(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()
 
 # COMANDO InfoAsignatura en cada aula y horario
-    #InfoAsignatura #Asig  
+#InfoAsignatura #Asig  
     elif recibido[0:14] == "AsignaturaInfo":
         COMANDOAsignaturaInfo(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()    
 
 # COMANDO EliminaDia en cada aula y horario
-    #Aula EliminaDia Dia  
+#Aula(Solo letra) EliminaDia Dia  
     elif recibido[2:12] == "EliminaDia":
         COMANDOEliminaDia(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()
 
 # COMANDO EliminaHorario
-    #Aula EliminaHorario
+#Aula(Solo letra) EliminaHorario
     elif recibido[2:16] == "EliminaHorario":
         COMANDOEliminaHorario(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()
 
 # COMANDO AsignaturaEliminada
-    #AsignaturaEliminada #Asig
+#AsignaturaEliminada #Asig
     elif recibido[0:19] == "AsignaturaEliminada":
         COMANDOAsignaturaEliminada(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()
 
 # COMANDO BorrarTodo
-    #BorrarTodo
+#BorrarTodo
     elif recibido[0:10] == "BorrarTodo":
         COMANDOBorrarTodo(recibido,Aula_LUNES,Aula_MARTES,Aula_MIERCOLES,Aula_JUEVES,Aula_VIERNES)
         client.disconnect()
 
+# COMANDO DiaLibre (HArá que el siguiente día sea libre)
     elif recibido[0:8] == "DiaLibre":
         FERIADO['Dia'] = 1
         client.disconnect()
