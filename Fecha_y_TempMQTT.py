@@ -78,7 +78,7 @@ GPIO.setup(buzzer, GPIO.OUT)
 
 print("------ Se activa el DHT11 ---------\n")
 # -------------------- Registro de Temperatura ----------------------------
-for i in range(2001):
+for i in range(6001):
     if i%100 == 0 and i !=0:
         lectura_temperatura = dht11(1,datetime.now())
         print(lectura_temperatura)
@@ -95,12 +95,3 @@ for i in range(2001):
     
 GPIO.cleanup()
 
-#### PRIMEA PREUBAAAA
-
-"""
-# --------- Conexión del cliente y publicación ------------
-for i in range(3):
-    cliente = paho.Client()
-    cliente.connect(broker,puerto)
-    mensaje = cliente.publish("topico_de_prueba","SAquenme de LatinoAmerica")
-    """
