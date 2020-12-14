@@ -14,7 +14,7 @@ import paho.mqtt.client as paho
 from Solo_funciones import*
 from signal import pause
 
-#Diccionarios
+# ---------------- Variables y Diccionarios el para control de tiempo de los bloques ------------------
 Meses = {1:'enero',2:'febrero',3:'marzo',4:'abril',
         5:'mayo',6:'junio',7:'julio',8:'agosto',
         9:'septimebre',10:'octubre',11:'noviembre',12:'diciembre'}
@@ -22,15 +22,14 @@ Meses = {1:'enero',2:'febrero',3:'marzo',4:'abril',
 Dias = {0:'Lunes',1:'Martes',2:'Miercoles',3:'Jueves',
         4:'Viernes',5:'Sabado',6:'Domingo'}
 
-#Variables para control de tiempo de los bloques ------------------
 T_inicio = datetime.now()
 Time = datetime.time(T_inicio)
-Empieza_BLOQUE_A = '11:39pm'
-Empieza_BLOQUE_B = '11:42pm'
-Empieza_BLOQUE_C = '11:44pm'
-Empieza_BLOQUE_D = '11:46pm'
-Empieza_BLOQUE_E = '11:48pm'
-Termina_BLOQUE_E = '11:50pm'
+Empieza_BLOQUE_A = '03:00pm'
+Empieza_BLOQUE_B = '03:00pm'
+Empieza_BLOQUE_C = '03:00pm'
+Empieza_BLOQUE_D = '04:00pm'
+Empieza_BLOQUE_E = '04:00pm'
+Termina_BLOQUE_E = '04:30pm'
 
 T_Empieza_BLOQUE_A = datetime.strptime(Empieza_BLOQUE_A, '%I:%M%p')
 T_Empieza_BLOQUE_B = datetime.strptime(Empieza_BLOQUE_B, '%I:%M%p')
@@ -38,7 +37,6 @@ T_Empieza_BLOQUE_C = datetime.strptime(Empieza_BLOQUE_C, '%I:%M%p')
 T_Empieza_BLOQUE_D = datetime.strptime(Empieza_BLOQUE_D, '%I:%M%p')
 T_Empieza_BLOQUE_E = datetime.strptime(Empieza_BLOQUE_E, '%I:%M%p')
 T_Termina_BLOQUE_E = datetime.strptime(Termina_BLOQUE_E, '%I:%M%p')
-
 
 #----------------------Terminales de salida ------------------------
 
@@ -48,27 +46,18 @@ rgbC = RGBLED(12,16,26)
 buzzer = LED(10)
 pir = MotionSensor(21)
 
-"""
-u = 0
-while(u == 0):
-    if pir.motion_detected:
-        for i in range(20):
-            buzzer.on()
-            rgbA.color = (1,1,1)
-            sleep(0.12)
-            buzzer.off()
-            rgbA.color = (0,0,0)
-            sleep(0.11)
-        u = 1
-"""
-
-
 #----------------------FuncioneS--------------------------
+
+
+# --------- Funcion para alarma de movimeinto una vez finalizada la jornada --------
 def Detector_Movimiento(tiempo):
     delay = 0
     tiempo = tiempo - 1
     while tiempo > 60:
-        print("Faltan ",tiempo," para empezar el Bloque A")
+        Pantalla = "Faltan "+str(tiempo)+" para empezar el Bloque A"
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla)
         if pir.motion_detected:
             delay = 1
             for i in range(20):
@@ -79,7 +68,7 @@ def Detector_Movimiento(tiempo):
                 rgbA.color = (0,0,0)
                 sleep(0.11)
         if delay == 1:
-            tiempo = tiempo - 4
+            tiempo = tiempo - 5
         else:
             tiempo = tiempo - 1
         delay = 0
@@ -87,8 +76,7 @@ def Detector_Movimiento(tiempo):
     S = 0
     return S 
 
-
-
+# --------- Funcion para capturar el tiempo actual --------
 def Capturar():
     T = datetime.now()
     diccTiempo = {
@@ -101,6 +89,7 @@ def Capturar():
         'Segundos':T.second}
     return diccTiempo
      
+# --------- Funcion para comparar el tiempo restante del bloque --------
 def Comparar(actual,bloque):
     if bloque == 0:
         Final = T_Empieza_BLOQUE_A - actual
@@ -121,7 +110,7 @@ def Comparar(actual,bloque):
     }
     return diccFINAL
 
-
+# --------- Funcion para fijar cada bloque --------
 def Captura_Bloque(BLOQUE):
     T = BLOQUE
     diccTiempo = {
@@ -130,10 +119,7 @@ def Captura_Bloque(BLOQUE):
         'Segundos':T.second}
     return diccTiempo
 
-"""
-
-"""
-
+# --------- Funcion paradeterminar en que bloque estamos --------
 def Seleccion_Bloque(Hora,Minutos,A,B,C,D,E,EF):
     print(Hora)
     if Hora >= 12:
@@ -181,7 +167,8 @@ def Seleccion_Bloque(Hora,Minutos,A,B,C,D,E,EF):
     S = 0
     print(S)
     return S
-    
+
+# --------- Funcion para determinar si encender o no las luces del aula --------  
 def Revisa_Aula(turno,Dia,LuzA,LuzB,LuzC):
     if turno == 1:
         turno = 'A'
@@ -200,22 +187,28 @@ def Revisa_Aula(turno,Dia,LuzA,LuzB,LuzC):
                 print(Aula_A_Lunes[i])
                 if Aula_A_Lunes[i] == 0:
                     rgbA.color = (0,0,0)
+                    LuzA = 0
                 else:
                     rgbA.color = (1,0,0)
+                    LuzA = 1
         for i in Aula_B_Lunes:
             if i == turno:
                 print(Aula_B_Lunes[i])
                 if Aula_B_Lunes[i] == 0:
                     rgbB.color = (0,0,0)
+                    LuzB = 0
                 else:
                     rgbB.color = (0,1,0)
+                    LuzB = 1
         for i in Aula_C_Lunes:
             if i == turno:
                 print(Aula_C_Lunes[i])
                 if Aula_C_Lunes[i] == 0:
                     rgbC.color = (0,0,0)
+                    LuzC = 0
                 else:
                     rgbC.color = (0,0,1)
+                    LuzC = 1
 
     elif Dia == "Martes":
         for i in Aula_A_Martes:
@@ -223,22 +216,28 @@ def Revisa_Aula(turno,Dia,LuzA,LuzB,LuzC):
                 print(Aula_A_Martes[i])
                 if Aula_A_Martes[i] == 0:
                     rgbA.color = (0,0,0)
+                    LuzA = 0
                 else:
                     rgbA.color = (1,0,0)
+                    LuzA = 1
         for i in Aula_B_Martes:
             if i == turno:
                 print(Aula_B_Martes[i])
                 if Aula_B_Martes[i] == 0:
                     rgbB.color = (0,0,0)
+                    LuzB = 0
                 else:
                     rgbB.color = (0,1,0)
+                    LuzB = 1
         for i in Aula_C_Martes:
             if i == turno:
                 print(Aula_C_Martes[i])
                 if Aula_C_Martes[i] == 0:
                     rgbC.color = (0,0,0)
+                    LuzC = 0
                 else:
                     rgbC.color = (0,0,1)
+                    LuzA = 1
 
     elif Dia == "Miercoles":
         for i in Aula_A_Miercoles:
@@ -246,22 +245,28 @@ def Revisa_Aula(turno,Dia,LuzA,LuzB,LuzC):
                 print(Aula_A_Miercoles[i])
                 if Aula_A_Miercoles[i] == 0:
                     rgbA.color = (0,0,0)
+                    LuzA = 0
                 else:
                     rgbA.color = (1,0,0)
+                    LuzA = 1
         for i in Aula_B_Miercoles:
             if i == turno:
                 print(Aula_B_Miercoles[i])
                 if Aula_B_Miercoles[i] == 0:
                     rgbB.color = (0,0,0)
+                    LuzB = 0
                 else:
                     rgbB.color = (0,1,0)
+                    LuzB = 1
         for i in Aula_C_Miercoles:
             if i == turno:
                 print(Aula_C_Miercoles[i])
                 if Aula_C_Miercoles[i] == 0:
                     rgbC.color = (0,0,0)
+                    LuzC = 0
                 else:
                     rgbC.color = (0,0,1)
+                    LuzC = 1
         
     elif Dia == 'Jueves':
         for i in Aula_A_Jueves:
@@ -269,22 +274,28 @@ def Revisa_Aula(turno,Dia,LuzA,LuzB,LuzC):
                 print(Aula_A_Jueves[i])
                 if Aula_A_Jueves[i] == 0:
                     rgbA.color = (0,0,0)
+                    LuzA = 0
                 else:
                     rgbA.color = (1,0,0)
+                    LuzA = 1
         for i in Aula_B_Jueves:
             if i == turno:
                 print(Aula_B_Jueves[i])
                 if Aula_B_Jueves[i] == 0:
                     rgbB.color = (0,0,0)
+                    LuzB = 0
                 else:
                     rgbB.color = (0,1,0)
+                    LuzB = 1
         for i in Aula_C_Jueves:
             if i == turno:
                 print(Aula_C_Jueves[i])
                 if Aula_C_Jueves[i] == 0:
                     rgbC.color = (0,0,0)
+                    LuzC = 0
                 else:
                     rgbC.color = (0,0,1)
+                    LuzC = 1
         
     elif Dia == "Viernes":
         for i in Aula_A_Viernes:
@@ -317,23 +328,10 @@ def Revisa_Aula(turno,Dia,LuzA,LuzB,LuzC):
 
     return [LuzA,LuzB,LuzC]
 
-
-def Alarma():
-    print("------ ALARMA ALARMA ALARMA ---------")
-    for i in range(20):
-        buzzer.on()
-        rgbA.color = (1,1,1)
-        sleep(0.12)
-        buzzer.off()
-        rgbA.color = (0,0,0)
-        sleep(0.11)
-    print("------ FIN DE ALARMA ---------\n")
-     
+# ------------------------ Inicia ciclo de control de luces ----------------------------------------
 def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula_a_Viernes,
             Aula_b_Lundes,Aula_b_Martes,Aula_b_Miercoles,Aula_b_Jueves,Aula_b_Viernes,
             Aula_c_Lunes,Aula_c_Mardes,Aula_c_Miercoles,Aula_c_Jueves,Aula_c_Viernes,feriado):
-
-#----------------- Inicia Código como tal: --------------------------------------}
     LIBRE = 0
     tiempo = Capturar()
     A = Captura_Bloque(T_Empieza_BLOQUE_A)
@@ -356,13 +354,15 @@ def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula
     while(True):
         if Pregunta == "S" or Pregunta == "s":
             break
-        print("------------ Día, FECHA Y HORA ACTUAL -----------")
+        Pantalla = "------------ Día, FECHA Y HORA ACTUAL -----------\n"
         HOY = calendar.weekday(tiempo['año'],tiempo['mes'],tiempo['dia']) 
-        print("Hoy es el día:",Dias[HOY])
-        print(tiempo['dia'],"de",Meses[tiempo['mes']],"del",tiempo['año'])
-        print(tiempo['hora'],":",tiempo['Minutos'],":",tiempo['Segundos'])
+        Pantalla2 = "Hoy es el día: "+str(Dias[HOY])+"\n"
+        Pantalla3 = str(tiempo['dia'])+" de "+str(Meses[tiempo['mes']])+" del "+str(tiempo['año'])+"\n"
+        Pantalla4 = str(tiempo['hora'])+" : "+str(tiempo['Minutos'])+" : "+str(tiempo['Segundos'])+"\n"
         sleep(1)
-
+        cliente = paho.Client()
+        cliente.connect(broker,puerto)
+        mensaje = cliente.publish("Pantalla_de_control",Pantalla+Pantalla2+Pantalla3+Pantalla4)
 #--------------------- PREGUNTA SI ES DÍA LIBRE ----------------------
         if Control_dia == Dias[HOY]:
             LIBRE = 0
@@ -393,33 +393,37 @@ def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula
         print("------------ TEMPORIZADOR ACTIVO ----------")
         Temporizador = Comparar(tiempo['todo'],BLOQUE)
 
-    # Bucle repetición ------------------------------
+    # Bucle repetición del bloque en curso------------------------------
         while Temporizador['Segundos'] >= 0:
             Actual = Capturar()
             Temporizador = Comparar(Actual['todo'],BLOQUE)
             if Temporizador['Segundos'] > 0:      
                 if BLOQUE == 0:
                     rgbA.color = (0,0,0)
-                    print("Faltan",Temporizador['Segundos'],"Segundos para Iniciar BLOQUE A")
+                    Pantalla = "Faltan "+str(Temporizador['Segundos'])+" Segundos para Iniciar el BLOQUE A\n"
                 elif BLOQUE == 1:
-                    print("Faltan",Temporizador['Segundos'],"Segundos para Iniciar BLOQUE B") 
+                    Pantalla = "Faltan "+str(Temporizador['Segundos'])+" Segundos para Iniciar el BLOQUE B\n"
                 elif BLOQUE == 2:      
-                    print("Faltan",Temporizador['Segundos'],"Segundos para Iniciar BLOQUE C")  
+                    Pantalla = "Faltan "+str(Temporizador['Segundos'])+" Segundos para Iniciar el BLOQUE C\n" 
                 elif BLOQUE == 3:   
-                    print("Faltan",Temporizador['Segundos'],"Segundos para iniciar BLOQUE D")   
+                    Pantalla = "Faltan "+str(Temporizador['Segundos'])+" Segundos para Iniciar el BLOQUE D\n"   
                 elif BLOQUE == 4:
-                    print("Faltan",Temporizador['Segundos'],"Segundos para Iniciar BLOQUE E") 
+                    Pantalla = "Faltan "+str(Temporizador['Segundos'])+" Segundos para Iniciar el BLOQUE E\n"
                 elif BLOQUE == 5:      
-                    print("Faltan",Temporizador['Segundos'],"Segundos para Terminar BLOQUE E")  
-                    if PIR == 1:
-                        PIR = Detector_Movimiento(Temporizador['Segundos'])
-                        Actual = Capturar()
-                        Temporizador = Comparar(Actual['todo'],BLOQUE)                
+                    Pantalla = "Faltan "+str(Temporizador['Segundos'])+" Segundos para Terminar el BLOQUE E\n"
+                if PIR == 1:
+                    PIR = Detector_Movimiento(Temporizador['Segundos'])
+                    Actual = Capturar()
+                    Temporizador = Comparar(Actual['todo'],BLOQUE) 
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)  
+# --------- Chequeo de aulas una vez empieza cada bloque --------           
             elif (Temporizador['Segundos']) == 0:
                 BLOQUE = BLOQUE + 1
                 if BLOQUE == 1:
                     BloqueMQTT = "A"
-                    print("Empezó el BLOQUE A")
+                    Pantalla= "Empezó el BLOQUE A"
                     Luces = Revisa_Aula(BLOQUE,Dias[HOY],Luz_A_MQTT,Luz_B_MQTT,Luz_C_MQTT)
                     Actual = Capturar()
                     print("la luz A esta: ",Luces[0])
@@ -429,7 +433,7 @@ def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula
                     sleep(2)
                 elif BLOQUE == 2:
                     BloqueMQTT = "B"
-                    print("Empezó BLOQUE B")
+                    Pantalla= "Empezó el BLOQUE B"
                     Luces = Revisa_Aula(BLOQUE,Dias[HOY],Luz_A_MQTT,Luz_B_MQTT,Luz_C_MQTT)
                     Actual = Capturar()
                     print("la luz A esta: ",Luces[0])
@@ -439,7 +443,7 @@ def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula
                     sleep(2)
                 elif BLOQUE == 3:
                     BloqueMQTT = "C"
-                    print("Empezó el BLOQUE C")
+                    Pantalla= "Empezó el BLOQUE C"
                     Luces = Revisa_Aula(BLOQUE,Dias[HOY],Luz_A_MQTT,Luz_B_MQTT,Luz_C_MQTT)
                     Actual = Capturar()
                     print("la luz A esta: ",Luces[0])
@@ -450,7 +454,7 @@ def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula
                     sleep(2)
                 elif BLOQUE == 4:
                     BloqueMQTT = "D"
-                    print("Empezó BLOQUE D")
+                    Pantalla= "Empezó el BLOQUE D"
                     Luces = Revisa_Aula(BLOQUE,Dias[HOY],Luz_A_MQTT,Luz_B_MQTT,Luz_C_MQTT)
                     Actual = Capturar()
                     print("la luz A esta: ",Luces[0])
@@ -458,11 +462,10 @@ def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula
                     print("la luz C esta: ",Luces[2])
                     Actual = Capturar()
                     Temporizador = Comparar(Actual['todo'],BLOQUE)
-                    PIR = 1
                     sleep(2)
                 elif BLOQUE == 5:
                     BloqueMQTT = "E"
-                    print("Empezó BLOQUE E")
+                    Pantalla= "Empezó el BLOQUE E"
                     Luces = Revisa_Aula(BLOQUE,Dias[HOY],Luz_A_MQTT,Luz_B_MQTT,Luz_C_MQTT)
                     Actual = Capturar()
                     print("la luz A esta: ",Luces[0])
@@ -473,7 +476,7 @@ def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula
                     sleep(2)
                 elif BLOQUE == 6:
                     BloqueMQTT = 6
-                    print("Terminó LA JORNADA DE HOY")
+                    Pantalla = "Terminó LA JORNADA DE HOY"
                     rgbA.color = (0,0,0)
                     rgbB.color = (0,0,0)
                     rgbC.color = (0,0,0)
@@ -481,16 +484,20 @@ def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula
                     Actual = Capturar()
                     LIBRE = 2
                     PIR = 1
-                    print("LIBRE ES: ",LIBRE)
-                    break
+                    #break
+                cliente = paho.Client()
+                cliente.connect(broker,puerto)
+                mensaje = cliente.publish("Pantalla_de_control",Pantalla)
             CAMBIAR = CAMBIAR + 1
             sleep(1)
+# ----------------------------------
             #if CAMBIAR == 30:
              #   CAMBIAR = 0
               #  Pregunta = input("¿Quieres realizar algun cambio en el horario? (Aplicable a partir dl siguiente bloque: ")
             #if Pregunta == "S" or Pregunta == "s":
              #   break
-            if Temporizador['Segundos']%60 == 0 and BLOQUE >= 1:
+# --------------------------------
+            if Temporizador['Segundos']%60 == 0 and Temporizador['Segundos'] != 0 and BLOQUE >= 1:
                 print(Luces[0])
                 print(Luces[1])
                 print(Luces[2])
@@ -516,30 +523,3 @@ def Control_Luces(Aula_a_Lunes,Aula_a_Martes,Aula_a_Miercoles,Aula_a_Jueves,Aula
             LIBRE = 1
     print("----------- FIN -------------------")
 
-"""
-
-# PRIEBAS
-broker = "192.168.1.30"
-puerto = 5050
-
-def conectado(client, userdata, flags, rc):
-    print("Conectado, codigo de respuesta: "+str(rc))
-    cliente.subscribe("recibe")
-
-def mensajeMQTT(client, userdata, msg):
-    recibido = msg.payload.decode()
-    Q = recibido
-    S = Q.split()
-    print(S)
-    if S[1] != 0:
-        rgbA.color = (1,0,0)
-    cliente.disconnect()
-
-def EnviaDatos():
-    SALIDA = str(2)
-    cliente = paho.Client()
-    cliente.connect(broker,puerto)
-    mensaje = cliente.publish("ALARMA",SALIDA)
-
-# FIN PRUEBAs
-"""
