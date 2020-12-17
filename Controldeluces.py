@@ -24,12 +24,12 @@ Dias = {0:'Lunes',1:'Martes',2:'Miercoles',3:'Jueves',
 
 T_inicio = datetime.now()
 Time = datetime.time(T_inicio)
-Empieza_BLOQUE_A = '03:00pm'
-Empieza_BLOQUE_B = '03:00pm'
-Empieza_BLOQUE_C = '03:00pm'
-Empieza_BLOQUE_D = '04:00pm'
-Empieza_BLOQUE_E = '04:00pm'
-Termina_BLOQUE_E = '04:30pm'
+Empieza_BLOQUE_A = '02:00pm'
+Empieza_BLOQUE_B = '02:05pm'
+Empieza_BLOQUE_C = '02:10pm'
+Empieza_BLOQUE_D = '02:15pm'
+Empieza_BLOQUE_E = '02:20pm'
+Termina_BLOQUE_E = '02:22pm'
 
 T_Empieza_BLOQUE_A = datetime.strptime(Empieza_BLOQUE_A, '%I:%M%p')
 T_Empieza_BLOQUE_B = datetime.strptime(Empieza_BLOQUE_B, '%I:%M%p')
@@ -118,16 +118,24 @@ def Captura_Bloque(BLOQUE):
         'Minutos':T.minute,
         'Segundos':T.second}
     return diccTiempo
-
+"""
+Empieza_BLOQUE_A = '10:49pm'
+Empieza_BLOQUE_B = '11:14pm'
+Empieza_BLOQUE_C = '11:15pm'
+Empieza_BLOQUE_D = '11:16pm'
+Empieza_BLOQUE_E = '11:17pm'
+Termina_BLOQUE_E = '11:18pm'
+"""
 # --------- Funcion paradeterminar en que bloque estamos --------
 def Seleccion_Bloque(Hora,Minutos,A,B,C,D,E,EF):
     print(Hora)
     if Hora >= 12:
-        Hora = Hora - 12
-        print(Hora)
+        #Hora = Hora - 12
+        #print(Hora)
         F = "p"
     else:
         F = "a"
+    print(A['hora'])
     if Empieza_BLOQUE_A[5] == F:
         if int(A['hora']) >= Hora:
             if int(A['Minutos']) > Minutos:
