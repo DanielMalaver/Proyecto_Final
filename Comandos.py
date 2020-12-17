@@ -19,8 +19,8 @@ from Control_luces import*
 SALIDA = {'Control':0}
 
 def conectado(client, userdata, flags, rc):
-    print("CONECTADO A EL AULA Codigo de respuesta: "+str(rc))
-    cliente.subscribe("Horario")
+    print("CONECTADO A EL HORARIO Codigo de respuesta: "+str(rc))
+    cliente.subscribe("Pantalla_de_control")
 
 def conectadoPantalla(client, userdata, flags, rc):
     print("Conectado a Pantalla de control Codigo de respuesta: "+str(rc))
@@ -41,7 +41,7 @@ broker = "192.168.1.30"
 puerto = 5050
 
 #------------ CICLO -----------------
-
+ComandoArchivo()
 while(True):
 #------------ Imprime horario inicial a modo de comprobacion -----------------
     print("SALON AAAAA")
@@ -94,7 +94,7 @@ while(True):
     print(Aula_C_Viernes)
 
 # --------- Mostrar en Pantalla de control ---------------------
-    Pantalla = "¿Quieres continuar en la pantalla de control?"
+    Pantalla = "¿Quieres continuar en la pantalla de control?\n"
     cliente = paho.Client()
     cliente.connect(broker,puerto)
     mensaje = cliente.publish("Pantalla_de_control",Pantalla)
