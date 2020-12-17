@@ -5,6 +5,11 @@ import calendar
 from DS3231 import*
 from SensorPir import*
 
+def inf(i=0, step=1):
+    while True:
+        yield i
+        i+=step
+
 #------------ Datos del broker MQTT -----------------
 broker = "192.168.1.30"
 puerto = 5050
@@ -78,7 +83,7 @@ GPIO.setup(buzzer, GPIO.OUT)
 
 print("------ Se activa el DHT11 ---------\n")
 # -------------------- Registro de Temperatura ----------------------------
-for i in range(6001):
+for i in inf():
     if i%100 == 0 and i !=0:
         lectura_temperatura = dht11(1,datetime.now())
         print(lectura_temperatura)
