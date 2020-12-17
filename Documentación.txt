@@ -1,0 +1,68 @@
+Comando Cambiar Bloque: Cambia el bloque elegido en cada día de la semana:
+	USo: Aula(Solo letra) CambiarBloque BLOQUEX Lunes #Asig Martes #Asig MIercoles #ASig Jueves #Asig Viernes #Asig 
+	Ejemplo: A CambiarBloque BLOQUEA Lunes 1 Martes 2 Miercoles 3 Jueves 4 Viernes 5
+
+Comando ConfigurarDia: Cambia cada bloque de un día seleccionado:
+	Uso: #Aula(Solo letra) Configurardia Dia BLOQUEA 1 BLOQUEB 2 BLOQUEC 3 BLOQUED 4 BLOQUEE 5 
+	Ejemplo: #B Configurardia Jueves BLOQUEA 1 BLOQUEB 2 BLOQUEC 3 BLOQUED 4 BLOQUEE 5 
+
+Comando AsignarAsignatura: Asigna una asignatura seleccionada a un dia y bloque determinado
+	Uso: Aula(Solo letra) AsignarAsignatura Dia BLOQUEX #Asignatura 
+	Ejemplo: C AsignarAsignatura Miercoles BLOQUED 6 
+
+Comando HorarioSemana: Muestra el horario de la semana de un aula determinada
+	Uso: AULA(Solo letra) HorarioSemana
+	Ejemplo: A HorarioSemana
+
+Comando Horario: Muestra el horario de un día particular para un aula
+	Uso: AULA(Solo letra) Horario Dia
+	Ejemplo: C Horario Martes
+
+Comando CadaAula: Muestra el horario de cada aula para un día determinado
+	Uso: CadaAula Dia
+	Ejemplo: CadaAula Lunes
+
+Comando AsignaturaInfo: Muestra los dias y bloques en que se dicta la asignatura selecionada para cada aula
+	Uso: AsignaturaInfo #Asignatura
+	Ejemplo: AsignaturaInfo 5
+
+Comando EliminaDia: Borra todas las asignaturas por bloque de un día en particular.
+	Uso: Aula(Solo letra) EliminaDia Dia 
+	Ejemplo: C EliminaDia Jueves
+
+Comando EliminaHorario: Elimina todas las clases de un aula determinada
+	Uso: Aula(Solo letra) EliminaHorario
+	Ejemplo: B EliminaHorario
+
+Comando AsignaturaEliminada: Elimina la asignatura seleccionada en cada aula
+	Uso: AsignaturaEliminada #Asig
+	Ejemplo: AsignaturaEliminada 5
+
+Comando BorrarTodo: Borra la configuración de cada día
+	Uso: BorrarTodo
+
+Comando DiaLibre: El siguiente día no se activaran las luces en los salones
+	USo: DiaLibre
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
